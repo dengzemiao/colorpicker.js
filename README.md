@@ -2,6 +2,8 @@
 
 - 选色器 `colorpicker.js` 源码，支持取得 `hex`、`rgb` 色值。
 
+- [效果查看](https://blog.csdn.net/zz00008888/article/details/136261939)
+
 # 二、使用方法
 
 - 导入
