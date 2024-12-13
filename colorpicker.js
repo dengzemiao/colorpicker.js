@@ -25,16 +25,16 @@
 				// mode 支持 hex、rgb
 				this.current_mode = 'rgb';
 				// 转成 [r, g, b]
-				const values = opt.color.replace('rgba(', '').replace('rgb(', '').replace(')', '').split(',');
+				var values = opt.color.replace('rgba(', '').replace('rgb(', '').replace(')', '').split(',');
 				// 默认展示色值
-				const rgb = { r: parseFloat(values[0].trim()), g: parseFloat(values[1].trim()), b: parseFloat(values[2].trim()) };
+				var rgb = { r: parseFloat(values[0].trim()), g: parseFloat(values[1].trim()), b: parseFloat(values[2].trim()) };
 				this.rgba = { r: rgb.r, g: rgb.g, b: rgb.b, a : !!values[3] ? parseFloat(values[3].trim()) : 1.0 };
 				this.hsb = this.rgbToHsb(rgb);
 			} else {
 				// mode 支持 hex、rgb
 				this.current_mode = 'hex';
 				// 默认展示色值
-				const rgb = this.hexToRgb(opt.color);
+				var rgb = this.hexToRgb(opt.color);
 				this.rgba = { r: rgb.r, g: rgb.g, b: rgb.b, a : 1.0 };
 				this.hsb = this.rgbToHsb(rgb);
 			}
