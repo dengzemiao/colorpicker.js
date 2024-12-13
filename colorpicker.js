@@ -19,7 +19,27 @@
 
 	Colorpicker.prototype = {
 		init(opt) {
-			let { el, initColor = "rgb(255,0,0)", allMode = ['hex', 'rgb'], color = '' } = opt;
+
+			// 初始化配置的是 rgb 色值，非 hex
+			if (opt.color && opt.color.indexOf('rgb') != -1) {
+				// mode 支持 hex、rgb
+				this.current_mode = 'rgb';
+				// 转成 [r, g, b]
+				const values = opt.color.replace('rgba(', '').replace('rgb(', '').replace(')', '').split(',');
+				// 默认展示色值
+				const rgb = { r: parseFloat(values[0].trim()), g: parseFloat(values[1].trim()), b: parseFloat(values[2].trim()) };
+				this.rgba = { r: rgb.r, g: rgb.g, b: rgb.b, a : !!values[3] ? parseFloat(values[3].trim()) : 1.0 };
+				this.hsb = this.rgbToHsb(rgb);
+			} else {
+				// mode 支持 hex、rgb
+				this.current_mode = 'hex';
+				// 默认展示色值
+				const rgb = this.hexToRgb(opt.color);
+				this.rgba = { r: rgb.r, g: rgb.g, b: rgb.b, a : 1.0 };
+				this.hsb = this.rgbToHsb(rgb);
+			}
+
+			let { el, color = '' } = opt;
 			var elem = document.getElementById(el);
 
 			if (!(elem && elem.nodeType && elem.nodeType === 1)) {
@@ -29,8 +49,6 @@
 			this.Opt = {
 				...opt,
 				el,
-				initColor,
-				allMode,
 				color
 			}
 
@@ -56,17 +74,7 @@
 			this.pointLeft = 0;
 			this.pointTop = 0;
 
-			this.current_mode = 'hex'; // input框当前的模式
-
-			this.rgba = { r: 0, g: 0, b: 0, a: 1 };
-			this.hsb = { h: 0, s: 100, b: 100 };
-
-
-			var _this = this, rgb = initColor.slice(4, -1).split(",");
-
-			this.rgba.r = parseInt(rgb[0]);
-			this.rgba.g = parseInt(rgb[1]);
-			this.rgba.b = parseInt(rgb[2]);
+			var _this = this;
 
 			var body = document.getElementsByTagName("body")[0],
 				div = document.createElement("div");
@@ -397,6 +405,8 @@
 			})
 		},
 		hide: function () {
+			console.log(11111);
+			
 			util.css(this.elem_wrap, {
 				"display": "none"
 			})

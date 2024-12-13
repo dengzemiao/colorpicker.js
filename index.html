@@ -34,16 +34,23 @@
 	</div>
 </body>
 <script>
-	var obj = document.getElementById("picker");
-	var a = Colorpicker.create({
+	var cp = Colorpicker.create({
+		// 容器标签
 		el: "color-picker",
-		color: "#000fff",
-		change: function (el, hex, rgb) {
-			el.style.backgroundColor = hex;
-			// el.style.backgroundColor = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${rgb.a})`;
-			// console.log(el, hex, rgb);
-			console.log(hex, rgb);
+		// 固定透明度为 1 ，但不可修改
+		// color: "#000fff",
+		// 固定透明度为 1 ，但不可修改
+		// color: "rgb(0, 255, 0)",
+		// 透明度也会生效，但不可修改
+		color: "rgba(0, 255, 0, 0.5)",
+		change: function (el, hex, rgba) {
+			el.style.backgroundColor = `rgba(${rgba.r}, ${rgba.g}, ${rgba.b}, ${rgba.a})`;
+			// el.style.backgroundColor = hex;
+			// console.log(el, hex, rgba);
+			console.log(hex, rgba);
 		}
 	})
+	// 可以调用内部方法，一般用不上
+	// setTimeout(() => { cp.hide() }, 2000);
 </script>
 </html>
