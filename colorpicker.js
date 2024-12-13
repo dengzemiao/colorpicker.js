@@ -405,8 +405,6 @@
 			})
 		},
 		hide: function () {
-			console.log(11111);
-			
 			util.css(this.elem_wrap, {
 				"display": "none"
 			})
