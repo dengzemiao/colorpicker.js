@@ -24,6 +24,8 @@
   Colorpicker.create({
 		// 容器标签
 		el: "color-picker",
+    // 视图层级
+		// zIndex: 2,
 		// 默认颜色，固定透明度为 1 ，但不可修改
 		// color: "#000fff",
 		// 默认颜色，固定透明度为 1 ，但不可修改

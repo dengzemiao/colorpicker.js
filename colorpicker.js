@@ -39,7 +39,7 @@
 				this.hsb = this.rgbToHsb(rgb);
 			}
 
-			let { el, color = '' } = opt;
+			let { el, color = '', zIndex = 2 } = opt;
 			var elem = document.getElementById(el);
 
 			if (!(elem && elem.nodeType && elem.nodeType === 1)) {
@@ -109,9 +109,10 @@
 
 			this.pancelLeft = left + this.elem_colorPalette.clientWidth;
 			this.pancelTop = top + this.bindElem.offsetHeight;
+			
 			util.css(div, {
 				"position": "absolute",
-				"z-index": 2,
+				"z-index": zIndex,
 				"display": 'none',
 				"left": left + "px",
 				"top": top + this.bindElem.offsetHeight + "px"
