@@ -98,31 +98,40 @@
 			/*  this.elem_opacityPancel = this.elem_barPicker2.parentNode.parentNode.children[1]; */
 
 			// var rect = this.bindElem.getBoundingClientRect();
-			var elem = this.bindElem;
-			var top = elem.offsetTop;
-			var left = elem.offsetLeft;
-			while (elem.offsetParent) {
-				top += elem.offsetParent.offsetTop;
-				left += elem.offsetParent.offsetLeft;
-				elem = elem.offsetParent;
-			}
+			// var elem = this.bindElem;
+			// var top = elem.offsetTop;
+			// var left = elem.offsetLeft;
+			// while (elem.offsetParent) {
+			// 	top += elem.offsetParent.offsetTop;
+			// 	left += elem.offsetParent.offsetLeft;
+			// 	elem = elem.offsetParent;
+			// }
 
-			this.pancelLeft = left + this.elem_colorPalette.clientWidth;
-			this.pancelTop = top + this.bindElem.offsetHeight;
+			// this.pancelLeft = left + this.elem_colorPalette.clientWidth;
+			// this.pancelTop = top + this.bindElem.offsetHeight;
 			
-			util.css(div, {
-				"position": "absolute",
-				"z-index": zIndex,
-				"display": 'none',
-				"left": left + "px",
-				"top": top + this.bindElem.offsetHeight + "px"
-			});
+			// util.css(div, {
+			// 	"position": "absolute",
+			// 	"z-index": zIndex,
+			// 	"display": 'none',
+			// 	"left": left + "px",
+			// 	"top": top + this.bindElem.offsetHeight + "px"
+			// });
 
-			this.bindMove(this.elem_colorPancel, this.setPosition, true);
-			this.bindMove(this.elem_barPicker1.parentNode, this.setBar, false);
+			// this.bindMove(this.elem_colorPancel, this.setPosition, true);
+			// this.bindMove(this.elem_barPicker1.parentNode, this.setBar, false);
 			/*  this.bindMove(this.elem_barPicker2.parentNode,this.setBar,false); */
 
 			this.bindElem.addEventListener("click", function () {
+				var rect = _this.bindElem.getBoundingClientRect();
+				var left = rect.left - (405 - rect.width) / 2;
+				util.css(div, {
+					"position": "absolute",
+					"z-index": zIndex,
+					"display": 'none',
+					"left": left + "px",
+					"top": rect.bottom + 4 + "px"
+				});
 				_this.show();
 			}, false);
 
@@ -377,29 +386,29 @@
 			this.current_mode = this.current_mode == 'hex' ? 'rgb' : 'hex';
 			this.elem_inputWrap.innerHTML = this.getInputTpl();
 		},
-		bindMove: function (elem, fn, bool) {
-			var _this = this;
+		// bindMove: function (elem, fn, bool) {
+		// 	var _this = this;
 
-			elem.addEventListener("mousedown", function (e) {
-				_this.downX = e.pageX;
-				_this.downY = e.pageY;
-				bool ? fn.call(_this, _this.downX, _this.downY) : fn.call(_this, elem, _this.downX, _this.downY);
+		// 	elem.addEventListener("mousedown", function (e) {
+		// 		_this.downX = e.pageX;
+		// 		_this.downY = e.pageY;
+		// 		bool ? fn.call(_this, _this.downX, _this.downY) : fn.call(_this, elem, _this.downX, _this.downY);
 
-				document.addEventListener("mousemove", mousemove, false);
-				function mousemove(e) {
-					_this.moveX = e.pageX;
-					_this.moveY = e.pageY;
-					bool ? fn.call(_this, _this.moveX, _this.moveY) : fn.call(_this, elem, _this.moveX, _this.moveY);
-					e.preventDefault();
-				}
-				document.addEventListener("mouseup", mouseup, false);
-				function mouseup(e) {
+		// 		document.addEventListener("mousemove", mousemove, false);
+		// 		function mousemove(e) {
+		// 			_this.moveX = e.pageX;
+		// 			_this.moveY = e.pageY;
+		// 			bool ? fn.call(_this, _this.moveX, _this.moveY) : fn.call(_this, elem, _this.moveX, _this.moveY);
+		// 			e.preventDefault();
+		// 		}
+		// 		document.addEventListener("mouseup", mouseup, false);
+		// 		function mouseup(e) {
 
-					document.removeEventListener("mousemove", mousemove, false)
-					document.removeEventListener("mouseup", mouseup, false)
-				}
-			}, false);
-		},
+		// 			document.removeEventListener("mousemove", mousemove, false)
+		// 			document.removeEventListener("mouseup", mouseup, false)
+		// 		}
+		// 	}, false);
+		// },
 		show: function () {
 			util.css(this.elem_wrap, {
 				"display": "block"
@@ -480,6 +489,5 @@
 	Colorpicker.create = function (opt) {
 		return new Colorpicker(opt)
 	}
-
 	window.Colorpicker = Colorpicker;
 })()
