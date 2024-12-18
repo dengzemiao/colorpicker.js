@@ -125,7 +125,7 @@
 
 			this.bindElem.addEventListener("click", function () {
 				// 获取拾色器主容器
-				var cpel = div.querySelectorAll('.colorpicker-container')[0].clientHeight;
+				var cpel = div.querySelectorAll('.colorpicker-container')[0];
 				// 获取拾色器的宽度
 				var cpwidth = 405;
 				// 获取拾色器的高度
