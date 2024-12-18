@@ -124,12 +124,10 @@
 			/*  this.bindMove(this.elem_barPicker2.parentNode,this.setBar,false); */
 
 			this.bindElem.addEventListener("click", function () {
-				// 获取拾色器主容器
-				var cpel = div.querySelectorAll('.colorpicker-container')[0];
 				// 获取拾色器的宽度
 				var cpwidth = 405;
 				// 获取拾色器的高度
-				var cpheight = cpel.clientHeight;
+				var cpheight = 229;
 				// 获取浏览器窗口宽度
 				var windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 				// 获取浏览器窗口高度
