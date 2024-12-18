@@ -39,7 +39,7 @@
 				this.hsb = this.rgbToHsb(rgb);
 			}
 
-			let { el, color = '', zIndex = 2 } = opt;
+			let { el, color = '', zIndex = 2, offset = { x: 0, y: 0 } } = opt;
 			var elem = document.getElementById(el);
 
 			if (!(elem && elem.nodeType && elem.nodeType === 1)) {
@@ -48,6 +48,7 @@
 
 			this.Opt = {
 				...opt,
+				offset,
 				el,
 				color
 			}
@@ -123,15 +124,49 @@
 			/*  this.bindMove(this.elem_barPicker2.parentNode,this.setBar,false); */
 
 			this.bindElem.addEventListener("click", function () {
+				// 获取拾色器主容器
+				var cpel = div.querySelectorAll('.colorpicker-container')[0].clientHeight;
+				// 获取拾色器的宽度
+				var cpwidth = 405;
+				// 获取拾色器的高度
+				var cpheight = cpel.clientHeight;
+				// 获取浏览器窗口宽度
+				var windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+				// 获取浏览器窗口高度
+				var windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+				// 绑定元素窗口上的位置
 				var rect = _this.bindElem.getBoundingClientRect();
-				var left = rect.left - (405 - rect.width) / 2;
+				// 绑定元素窗口左边剩余空间
+				var bindElemLeft = rect.left;
+				// 绑定元素窗口右边剩余空间
+				var bindElemRight = windowWidth - bindElemLeft;
+				// 绑定元素窗口上边剩余空间
+				var bindElemTop = rect.bottom;
+				// 绑定元素窗口下边剩余空间
+				var bindElemBottom = windowHeight - bindElemTop;
+				// 拾色器左边定位
+				var left = rect.left + offset.x;
+				// 拾色器上边定位
+				var top = rect.bottom + offset.y;
+				// 如果右边空间不足够的情况
+				if (bindElemRight < cpwidth) {
+					// 往左边偏移一点
+					left = rect.left - (cpwidth - bindElemRight);
+				}
+				// 如果下边空间不足够的情况
+				if (bindElemBottom < cpheight) {
+					// 往上边偏移一点
+					top = rect.bottom - (cpheight - bindElemBottom);
+				}
+				// 设置样式
 				util.css(div, {
 					"position": "absolute",
 					"z-index": zIndex,
 					"display": 'none',
 					"left": left + "px",
-					"top": rect.bottom + 4 + "px"
+					"top": top + "px"
 				});
+				// 显示
 				_this.show();
 			}, false);
 
@@ -178,8 +213,9 @@
 		},
 		render: function () {
 			var tpl =
-				`<div style="position: fixed; top: 0px; right: 0px; bottom: 0px; left: 0px;"></div>
-				<div style="position: inherit;z-index: 100;display: flex;box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 2px, rgba(0, 0, 0, 0.3) 0px 4px 8px;">
+				`
+				<div class="colorpicker-fixed-cover" style="position: fixed; top: 0px; right: 0px; bottom: 0px; left: 0px;"></div>
+				<div class="colorpicker-container" style="position: inherit;z-index: 100;display: flex;box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 2px, rgba(0, 0, 0, 0.3) 0px 4px 8px;">
 					<div style='width:180px;padding:10px;background: #f9f9f9;display: flex;flex-flow: row wrap;align-content: space-around;justify-content: space-around;' class='color-palette'>
 						${this.getPaletteColorsItem()}
 					</div>
